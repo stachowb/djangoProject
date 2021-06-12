@@ -2,9 +2,8 @@ from django.db import models
 
 
 class Profile(models.Model):
-    skills = None
+    # skills = None
     bio = models.TextField(max_length=520)
-    photo = models.ImageField()
     cv_file = models.FileField()
 
 
@@ -16,7 +15,7 @@ class Skills(models.Model):
 
 
 class ProspectSkillset(models.Model):
-    prospect = None
+    # prospect = None
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
 
     level_choices = (
