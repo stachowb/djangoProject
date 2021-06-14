@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
@@ -15,7 +16,7 @@ class Skills(models.Model):
 
 
 class ProspectSkillset(models.Model):
-    # prospect = None
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
 
     level_choices = (
