@@ -2,12 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=520)
-    cv_file = models.FileField()
-
-
 class Skills(models.Model):
     name = models.CharField(max_length=64)
 
@@ -15,8 +9,15 @@ class Skills(models.Model):
         return self.name
 
 
-class ProspectSkillset(models.Model):
+class ProspectProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=520)
+    cv_file = models.FileField()
+    skills = models.ManyToManyField(Skills, through="ProspectSkillset")
+
+
+class ProspectSkillset(models.Model):
+    user = models.ForeignKey(ProspectProfile, on_delete=models.CASCADE)
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
 
     level_choices = (
@@ -27,3 +28,4 @@ class ProspectSkillset(models.Model):
         ("*****", 5)
     )
     level = models.IntegerField(choices=level_choices)
+    experience = models.IntegerField()
