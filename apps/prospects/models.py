@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
-    # skills = None
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=520)
     cv_file = models.FileField()
 
