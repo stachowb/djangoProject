@@ -15,6 +15,7 @@ class ProspectProfile(models.Model):
     cv_file = models.FileField()
     skills = models.ManyToManyField(Skills, through="ProspectSkillset")
 
+
 class ProspectSkillset(models.Model):
     user = models.ForeignKey(ProspectProfile, on_delete=models.CASCADE)
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
