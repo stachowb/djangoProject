@@ -34,22 +34,22 @@ class ProspectSkillset(models.Model):
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
 
     level_choices = (
-        ("*", 1),
-        ("**", 2),
-        ("***", 3),
-        ("****", 4),
-        ("*****", 5)
+        (1, "*"),
+        (2, "**"),
+        (3, "***"),
+        (4, "****"),
+        (5, "*****")
     )
     level = models.IntegerField(choices=level_choices, default=0)
 
     experience_choices = (
-        ("less than a year", 0),
-        ("1 year", 1),
-        ("2 years", 2),
-        ("3 years", 3),
-        ("4 years", 4),
-        ("5 years", 5),
-        ("more than 5 years", 6)
+        (0, "less than a year"),
+        (1, "1 year"),
+        (2, "2 years"),
+        (3, "3 years"),
+        (4, "4 years"),
+        (5, "5 years"),
+        (6, "more than 5 years")
     )
     experience = models.IntegerField(choices=experience_choices, default=0)
 
