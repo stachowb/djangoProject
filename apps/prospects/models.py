@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 class Skills(models.Model):
@@ -12,8 +13,20 @@ class Skills(models.Model):
 class ProspectProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=520)
-    cv_file = models.FileField()
+    cv_file = models.FileField(blank=True)
     skills = models.ManyToManyField(Skills, through="ProspectSkillset")
+    slug = models.SlugField(blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.user.get_full_name())
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+    def get_absolute_url(self):
+        return f'/{self.slug}/'
 
 
 class ProspectSkillset(models.Model):
@@ -27,5 +40,18 @@ class ProspectSkillset(models.Model):
         ("****", 4),
         ("*****", 5)
     )
-    level = models.IntegerField(choices=level_choices)
-    experience = models.IntegerField()
+    level = models.IntegerField(choices=level_choices, default=0)
+
+    experience_choices = (
+        ("less than a year", 0),
+        ("1 year", 1),
+        ("2 years", 2),
+        ("3 years", 3),
+        ("4 years", 4),
+        ("5 years", 5),
+        ("more than 5 years", 6)
+    )
+    experience = models.IntegerField(choices=experience_choices, default=0)
+
+    def __str__(self):
+        return self.user.__str__()
